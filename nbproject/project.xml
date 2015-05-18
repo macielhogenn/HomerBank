@@ -41,7 +41,7 @@
             </web-module-libraries>
             <web-module-additional-libraries/>
             <source-roots>
-                <root id="src.dir"/>
+                <root id="src.java.dir" name="Pacotes de Código Fonte"/>
             </source-roots>
             <test-roots/>
         </data>
