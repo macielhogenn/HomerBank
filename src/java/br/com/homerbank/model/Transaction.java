@@ -11,4 +11,8 @@ package br.com.homerbank.model;
  */
 public class Transaction {
     
+    private long id;
+    private Account acCredit;
+    private Account acDebit;
+    private double amount;
 }

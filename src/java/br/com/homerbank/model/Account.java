@@ -24,6 +24,8 @@ public class Account {
     private Date dateOfCreation;
     private double balance;
     
+    private Client owner;
+    
     public Account() {
         this.type = Account.CURRENT;
     }
@@ -82,6 +84,14 @@ public class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public Client getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Client owner) {
+        this.owner = owner;
     }
     
 }
