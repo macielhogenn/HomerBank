@@ -1,0 +1,455 @@
+<!-- Nome do Projeto Ant -->
+<project name="antproject_chat" default="ajuda" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant"> 
+
+    <!-- Define uma referencia para as variaveis de ambiente -->
+    <property environment="e"/>
+
+    <!-- Nome do arquivo de Propriedades do Projeto -->
+    <property name="nome.arquivo" value="build.properties"/>
+    <!-- Propriedades Relativas ao Ambiente da Aplicacao Web vem do arquivo buid.properties-->
+    <property file="${nome.arquivo}"/>
+
+    <!-- Propriedades Relativas ao Tomcat -->
+    <property name="catalina.home" value="${e.CATALINA_HOME}"/>
+    <!-- caminho para o diretorio webapps  dentro do tomcat(catalina.home)  -->
+    <property name="webapps.home" value="${catalina.home}/webapps/${nome.aplicacao}"/>
+    <!-- caminho para o diretorio work  dentro do tomcat(catalina.home)  -->
+    <property name="work.home" value="${catalina.home}/work/Catalina/localhost/${nome.aplicacao}"/>
+    <!-- caminho para o diretorio das classes dentro do contexto do tomcat -->
+    <property name="webapps.home.classes" value="${webapps.home}/WEB-INF/classes"/> 
+    <!-- caminho para o diretorio das classes dentro do contexto do tomcat -->
+    <property name="webapps.home.lib" value="${webapps.home}/WEB-INF/lib"/> 	
+    
+    <!-- caminho para o diretorio ant -->	
+    <property name="ant.home" value="${e.ANT_HOME}"/> 	
+        
+    <!-- Bibliotecas Tomcat -->
+    <!-- diretorio default das bibliotecas dentro do tomcat lib -->	
+    <property name="tomcat.lib" value="${catalina.home}/lib"/> 
+
+    <!-- Propriedades Relativas ao jdk -->
+    <property name="jdk.home" value="${e.JAVA_HOME}"/>
+    <!-- diretorio default das bibliotecas  dentro do jdk /lib -->	
+    <property name="jdk.home.lib" value="${jdk.home}/lib"/> 
+    <!-- diretorio default das bibliotecas  dentro do jdk jre/lib -->	
+    <property name="jdk.home.jre.lib" value="${jdk.home}/jre/lib"/>
+
+    <property name="windows.tomcat.liga" value="${catalina.home}/bin/startup.bat"/>
+    <property name="windows.tomcat.desliga" value="${catalina.home}/bin/shutdown.bat"/>
+    <property name="linux.tomcat.liga" value="${catalina.home}/bin/startup.sh"/>
+    <property name="linux.tomcat.desliga" value="${catalina.home}/bin/shutdown.sh"/>
+
+
+    <!--
+      Estas opcoes de controle de propriedades sao configuradas no compilador javac quando 
+      ele e chamado usando a tarefa <javac>
+      compilacao.debug			Inclui opcoes de debug na compilacao
+      compilacao.deprecation	Inclui opcoes de deprecation na compilacao
+      compilacao.optimize		Inclui opcoes de optimize na compilacao
+    -->
+
+    <property name="compilacao.debug"       value="true"/>
+    <property name="compilacao.deprecation" value="false"/>
+    <property name="compilacao.optimize"    value="true"/>
+
+    <!-- Caminho para as bibliotecas / Bibliotecas devem ser definidas aqui -->
+    <path id="biblioteca.base">
+        <pathelement path="${classpath}"/>
+        <pathelement path="${classes.home}"/>
+        <fileset dir="${pages.home}/WEB-INF/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${jdk.home.lib}">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${jdk.home.jre.lib}">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${tomcat.lib}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <!-- Caminho para as bibliotecas Bibliotecas ant e tomcat devem ser definidas aqui -->
+    <path id="biblioteca.ant.tomcat">
+        <fileset dir="${tomcat.lib}">
+            <include name="catalina-ant.jar"/>
+            <include name="tomcat-coyote.jar"/>
+            <include name="tomcat-util.jar"/>
+        </fileset>
+        <fileset dir="${catalina.home}/bin">
+            <include name="tomcat-juli.jar"/>
+        </fileset>
+    </path>
+	 
+    <!-- Configura as tarefas padroes para usar o Manager Application do Tomcat -->
+    <taskdef name="catalina.deploy"    classname="org.apache.catalina.ant.DeployTask" classpathref="biblioteca.ant.tomcat"/>
+    <taskdef name="catalina.list"      classname="org.apache.catalina.ant.ListTask" classpathref="biblioteca.ant.tomcat"/>
+    <taskdef name="catalina.reload"    classname="org.apache.catalina.ant.ReloadTask" classpathref="biblioteca.ant.tomcat"/>
+    <taskdef name="catalina.resources" classname="org.apache.catalina.ant.ResourcesTask" classpathref="biblioteca.ant.tomcat"/>
+    <taskdef name="catalina.start"     classname="org.apache.catalina.ant.StartTask" classpathref="biblioteca.ant.tomcat"/>
+    <taskdef name="catalina.stop"      classname="org.apache.catalina.ant.StopTask" classpathref="biblioteca.ant.tomcat"/>
+    <taskdef name="catalina.undeploy"  classname="org.apache.catalina.ant.UndeployTask" classpathref="biblioteca.ant.tomcat"/>
+	
+
+
+
+
+    <!-- Target     : ajuda
+         Finalidade : mostrar opcoes de uso ao usuario.
+         Como faz   : mostra cada opcao na tela.
+         Observacao : target default.
+    -->
+    <target name="ajuda">
+        <echo message = "Uso:"/>
+        <echo message = "ant ini         - prepara as propriedades"/>
+        <echo message = "ant compila     - compila java"/>
+        <echo message = "ant executa     - executa a aplicacao Teste"/>
+        <echo message = "ant limpa       - apaga os .class .jar .doc"/>
+        <echo message = "ant refaz       - apaga versao atual e compila"/>
+        <echo message = "ant doc         - gera a documentacao"/>
+        <echo message = "ant jar         - gera o jar"/>  
+        <echo message = "ant deployi     - copia a aplicacao para Tomcat"/>
+        <echo message = "ant deploy      - copia a aplicacao para Tomcat Ctx"/>
+        <echo message = "ant undeploy    - apaga a aplicacao do Tomcat"/>
+        <echo message = "ant ligat       - carrega o Tomcat"/>
+        <echo message = "ant desligat    - encerra o Tomcat"/>
+        <echo message = "ant war         - gerar o war"/>
+        <echo message = "ant testa       - abre o browser no contexto"/>
+        <echo message = "ant manual.ant  - abre o browser com o manual do ant"/>
+    </target>
+
+    <!-- Target     : ini
+         Finalidade : preparar as propriedades usados em outros targets.
+         Como faz   : verifica se o OS eh da familia Windows.
+         Observacao : O Ant nao executa tarefas assincronamente no Windows.
+                      Isso impede, por exemplo, que o Tomcat seja carregado
+                      via Ant.
+    -->
+    <target name="ini">
+        <condition property="windows.presente"> 
+            <os family="windows"/>
+        </condition>
+
+        <mkdir dir="${jar.home}"/>
+        <mkdir dir="${doc.home}"/>
+        <mkdir dir="${classes.home}"/>
+        <mkdir dir="${war.home}"/>
+        <mkdir dir="${fontes.home}"/>
+    </target>
+     
+    <!-- Target     : compila
+         Finalidade : ini as classes Java que fazem parte da aplicacao.
+         Como faz   : usa a tarefa javac.
+         Observacao : so recompila os arquivos fontes que foram modificados. deprecation="on" 
+    -->
+    <target name="compila" depends="ini">  
+        <javac srcdir="${fontes.home}" destdir="${classes.home}"  
+               debug="${compilacao.debug}"
+               deprecation="${compilacao.deprecation}"
+               optimize="${compilacao.optimize}"
+               includeantruntime="false"
+               source="${java.source.versao}"
+               target="${java.target.versao}">
+
+            <classpath>
+                <path refid="biblioteca.base"/>
+            </classpath>		
+        </javac>
+        <echo message = "Compilacao realizada com Sucesso!"/>
+		
+        <ant target="copiaProperties" />
+        <!--<ant target="copiaPersistence" />-->
+    </target>
+
+    <!-- Target     : executa
+         Finalidade : Executa a aplicacao
+         Como faz   : usa a tarefa java.
+         Observacao : executa a classe principal da aplicacao.
+    -->
+    <target name="executa" depends="compila">
+        <java classname="${classes.home}\${principal.home}" fork="true">
+            <classpath>
+                <path refid="biblioteca.base"/>
+            </classpath>
+        </java>
+        <echo message = "Executado!"/>
+    </target>
+
+    <!-- Target     : apaga
+         Finalidade : Apagar os diretorios gerados pela compilacao da aplicacao.
+         Como faz   : apaga o diretorio de classes, jar e doc 
+    -->
+    <target name="limpa" depends="ini">
+        <delete includeEmptyDirs="true">
+            <fileset dir="${jar.home}"/>	
+            <fileset dir="${doc.home}"/>
+            <fileset dir="${classes.home}"/>	
+            <fileset dir="${war.home}"/>
+        </delete>
+        <echo message = "Exclusao realizada com Sucesso!"/>
+    </target>
+
+    <!-- Target     : refaz
+         Finalidade : Reini toda a aplicacao web, apaga diretorios que contem as classes java compiladas 			 e compila de novo
+         Como faz   : usa a target apaga e depois compila
+    -->
+    <target name="refaz" depends="limpa,compila"/>
+
+    <!-- Target     : doc
+         Finalidade : crias os docs dos fontes e coloca no diretorio $doc.home
+         Como faz   : usa a tarefa javacdoc
+    -->
+    <target name="doc" depends="compila">
+        <javadoc packagenames="**"
+                 sourcepath="${fontes.home}"
+                 defaultexcludes="yes"
+                 destdir="${doc.home}"
+                 author="true"
+                 version="true"
+                 use="true"
+                 windowtitle="${nome.aplicacao} API">
+
+            <classpath>
+                <path refid="biblioteca.base"/>
+            </classpath>
+
+            <doctitle><![CDATA[<h1>${nome.aplicacao} API</h1>]]></doctitle>
+            <bottom><![CDATA[<i>Copyright &#169; 2010 ${nome.aplicacao}. Todos os Direitos.</i>]]></bottom>
+            <!-- outros grupos de packages devem ser colocados aqui -->
+            <!-- <group title="Group 1 Packages"  packages="com.${nome.aplicacao}.*"/> -->
+            <!-- <group title="Group 2 Packages"  packages="com.${nome.aplicacao}.*"/> -->
+            <link offline="true" href="http://java.sun.com/products/jdk/1.4/docs/api/" packagelistLoc="C:\tmp"/>
+        </javadoc>
+        <echo message = "Documentacao realizada com Sucesso!"/>
+    </target>
+
+
+
+    <!-- Target     : jar
+         Finalidade : gerar o arquivo jars 
+         Como faz   : usa a tarefa jar.
+         Observacao : coloca o jar gerado dentro de ${jar.home}.
+    -->
+    <target name="jar" depends="compila">
+        <jar destfile="${jar.home}/${nome.aplicacao}.jar">
+            <fileset dir="${classes.home}">
+                <include name="**/*.*"/>	
+            </fileset>
+            <manifest>
+                <attribute name="Built-By" value="${autor.nome}"/>
+                <attribute name="Main-Class" value="${principal.home}"/>
+            </manifest>
+        </jar>
+        <echo message = "Jar Gerado com Sucesso!"/>
+    </target>
+
+    <!-- Target     : deployi
+         Finalidade : copia os .class .jsp e .xml para o tomcat/webapps
+         Como faz   : usa a tarefa copy
+    -->
+    <target name="deployi" depends="compila" >		
+        <copy todir="${webapps.home}">
+            <fileset dir="${pages.home}"/>
+        </copy>
+        <copy todir="${webapps.home.classes}">
+            <fileset dir="${classes.home}">
+                <include name="**/*.class" />
+                <include name="**/*.properties" />
+                <include name="**/*.xml" />
+                <exclude name="**/*Test*" />
+            </fileset>
+        </copy>
+        <echo message = "Deploy efetuado com Sucesso!"/>
+    </target>
+
+
+    <!-- Target     : deploy
+         Finalidade : copia os .class .jsp e .xml para o tomcat/webapps parando o contexto
+         Como faz   : usa os alvos contexto.stop, contexto.start deployi
+    -->
+    <target name="deploy">
+        <ant target="deployi"/>	
+        <ant target="contexto.stop"/>
+        <ant target="contexto.start"/>
+        <echo message = "Deploy efetuado com Sucesso!"/>
+    </target>
+
+    <!-- Target     : undeploy
+         Finalidade : apagar o .class dentro de webapps/webapps
+         Como faz   : usa a tarefa delete
+    -->
+    <target name="undeploy">
+        <delete dir="${webapps.home}"/>	
+        <delete dir="${work.home}"/>	
+        <echo message = "UnDeploy Tomcat efetuado com Sucesso!"/>
+    </target>
+
+    <!-- Target     : ligat
+         Finalidade : Ativar o Tomcat.
+         Como faz   : executa o comando $CATALINA_HOME/bin/startup.sh
+         Observacao : So carrega automaticamente no Linux. No Windows, o
+                      carregamento tem que ser manual (via s.bat).
+    -->
+    <target name="ligat" depends="ini" >
+        <ant target="win_ligat"/>
+        <ant target="linux_ligat"/>
+    </target>
+
+    <target name="win_ligat">
+        <echo message = "** Carregando o Tomcat **"/>
+        <echo message = "Digite t.bat para iniciar o tomcat no windows"/>
+        <exec executable="${windows.tomcat.liga}"/>
+        <echo message = "Feito!"/>
+    </target>
+
+    <target name="linux_ligat" unless="windows.presente">
+        <echo message = "** Carregando o Tomcat **"/>
+        <exec executable="${linux.tomcat.liga}"/>
+        <sleep seconds="10"/>
+        <echo message = "Feito!"/>
+    </target>
+
+    <!-- Target     : desligat
+         Finalidade : Encerrar o Tomcat.
+         Como faz   : executa o comando $CATALINA_HOME/bin/shutdown.sh
+    -->
+    <target name="desligat" depends="ini">
+        <ant target="win_desligat"/>
+        <ant target="linux_desligat"/>
+        <sleep seconds="10"/>
+        <echo message = "Feito!"/>
+    </target>
+
+    <target name="win_desligat" >
+        <exec executable="${windows.tomcat.desliga}"/>
+    </target>
+
+    <target name="linux_desligat" unless="windows.presente">
+        <exec executable="${linux.tomcat.desliga}"/>
+    </target>
+
+    <!-- Target     : war
+         Finalidade : gerar o arquivo war
+         Como faz   : usa a tarefa war.
+    -->
+    <target name="war" depends="compila">
+        <war destfile="${war.home}/${nome.aplicacao}.war" webxml="${pages.home}/WEB-INF/web.xml">
+            <fileset dir="${pages.home}" >
+                <include name="**" />			
+            </fileset>
+            <classes dir="${classes.home}" >
+                <include name="**/*.class" />
+                <include name="**/*.properties" />
+                <include name="**/*.xml" />
+            </classes>
+        </war>
+    </target>
+
+
+    <!-- Target     : contexto.start
+         Finalidade : Inicia o contexto da aplicacao dentro do tomcat
+         Como faz   : usa a tarefa padrao catalina.start.
+    -->
+    <target name="contexto.start">
+        <catalina.start  url="${catalina.url}/manager/text" username="${catalina.usuario}" password="${catalina.senha}" path="/${nome.aplicacao}"/>
+    </target>
+
+
+    <!-- Target     : contexto.stop
+         Finalidade : Para o contexto da aplicacao dentro do tomcat
+         Como faz   : usa a tarefa padrao catalina.stop.
+    -->
+    <target name="contexto.stop">
+        <catalina.stop  url="${catalina.url}/manager/text" username="${catalina.usuario}" password="${catalina.senha}" path="/${nome.aplicacao}" />
+    </target>
+
+
+    <!-- Target     : rodarso
+         Finalidade : Gerar um arquivo texto com a listagem do diretorio dos fontes
+         Como faz   : usa a tarefa padrao exec
+    -->
+    <target name="rodarso">
+        <exec executable="cmd.exe" dir="${pages.home}"  output="dir.txt"> 
+            <arg line="/c dir"/> 
+        </exec> 
+    </target>
+
+    <!-- Target     : testar
+         Finalidade : Abre o navegador padrao no contexto da aplicacao
+         Como faz   : usa a tarefa padrao exec
+    -->
+    <property name="file.teste" location="${catalina.url}/${nome.aplicacao}/"/>
+    <target name="testa">
+        <openInBrowser url="${catalina.url}/${nome.aplicacao}/"/>
+    </target>
+
+    <!-- Target     : manual.ant
+         Finalidade : Abre o internet explorer com o manual do ant
+         Como faz   : usa a tarefa padrao exec
+    -->
+    <property name="file.ant" location="${ant.home}/manual/index.html"/>
+    <target name="manual.ant">
+        <openInBrowser url="${file.ant}/"/>
+    </target>
+    
+    <target name="copiaProperties">
+        <copy todir="${classes.home}/${i18n.home}/">
+            <fileset dir="${fontes.home}/${i18n.home}/">
+                <include name="*.properties"/>
+            </fileset>
+        </copy>
+        <echo message="Copia properties executado com sucesso!" />
+    </target>
+    
+    <target name="copiaPersistence">
+        <copy todir="${classes.home}/META-INF/">
+            <fileset dir="${fontes.home}/META-INF/">
+                <include name="*.xml"/>
+            </fileset>
+        </copy>
+        <echo message="Copia persistence executado com sucesso!" />
+    </target>
+    
+    <macrodef name="openInBrowser">
+        <attribute name="url"/>
+        <sequential>
+            <exec dir="${basedir}" executable="rundll32.exe">
+                <arg line="url.dll, FileProtocolHandler"/>
+                <arg line="@{url}"/>
+            </exec>
+        </sequential>     
+    </macrodef>
+	
+    <target name="deploy_remoto" depends="war">
+        <ftp server="${ftp.url}"  
+             remotedir="${ftp.caminho}"  
+             userid="${ftp.usuario}"  
+             password="${ftp.senha}"  
+             binary="yes">  
+            <fileset dir="${war.home}">  
+                <include name="${nome.aplicacao}.war"/>
+            </fileset>  
+        </ftp>  
+    </target>
+	
+    <target name="criar">
+        <condition property="windows.presente"> 
+            <os family="windows"/>
+        </condition>
+	
+        <mkdir dir="${pages.home}/WEB-INF"/>
+        <mkdir dir="${pages.home}/WEB-INF/lib"/>
+        <mkdir dir="${pages.home}/META-INF"/>
+        <mkdir dir="${pages.home}/resources/default/js" />
+        <mkdir dir="${pages.home}/resources/default/css" />
+        <mkdir dir="${pages.home}/resources/default/images" />
+        <mkdir dir="${fontes.home}"/>
+        <mkdir dir="${fontes.home}/META-INF"/>
+        <mkdir dir="${basedir}/util"/>
+        <mkdir dir="${basedir}/test"/>
+    </target>
+	
+	
+</project>
+
