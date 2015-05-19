@@ -4,12 +4,14 @@
     Author     : Maciel
 --%>
 
+
 <%--
  % Example for using the free http://captchas.net Webservice
  % Documentation see http://captchas.net/sample/jsp/
  --%>
 
-<%@ page language="java" contentType="text/html" pageEncoding="UTF-8" import="captchas.CaptchasDotNet" %>
+<%@ page language="java" contentType="text/html" pageEncoding="UTF-8"  %>
+<%@page import="captchas.CaptchasDotNet" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -19,7 +21,7 @@
 <%
 // Construct the captchas object
 // Use same settings as in query.jsp
-CaptchasDotNet captchas = new captchas.CaptchasDotNet(
+CaptchasDotNet captchas = new CaptchasDotNet(
   request.getSession(true),     // Ensure session
   "demo",                       // client
   "secret"                      // secret

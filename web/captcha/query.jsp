@@ -23,6 +23,7 @@
  --%>
 
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" import="captchas.CaptchasDotNet" %>
+<%@ page import="captchas.CaptchasDotNet" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -31,7 +32,7 @@
   <h1>Sample JSP CAPTCHA Query</h1>
 <%
 // Construct the captchas object (Default Values)
-CaptchasDotNet captchas = new captchas.CaptchasDotNet(
+CaptchasDotNet captchas = new CaptchasDotNet(
   request.getSession(true),     // Ensure session
   "demo",                       // client
   "secret"                      // secret
