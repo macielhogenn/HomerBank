@@ -11,4 +11,8 @@ package br.com.homerbank.dao.jdbc;
  */
 public class JDBCGenericDAO {
     
+    protected JDBCUtil getJDBCUtil() {
+        return new JDBCUtil();
+    }
+    
 }

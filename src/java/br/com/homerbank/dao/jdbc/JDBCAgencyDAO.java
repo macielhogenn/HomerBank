@@ -7,12 +7,14 @@ package br.com.homerbank.dao.jdbc;
 
 import br.com.homerbank.dao.core.AgencyDAO;
 import br.com.homerbank.model.Agency;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  *
  * @author Maciel
  */
-public class JDBCAgencyDAO implements AgencyDAO {
+public class JDBCAgencyDAO extends JDBCGenericDAO implements AgencyDAO {
 
     @Override
     public boolean create(Agency t) {
