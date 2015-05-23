@@ -10,7 +10,7 @@ package br.com.homerbank.model;
  * @author Maciel
  */
 public class Client {
- 
+    
     private long id;
     private String name;
     private Account account;

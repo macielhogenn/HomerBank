@@ -5,6 +5,8 @@
  */
 package br.com.homerbank.dao;
 
+import java.util.List;
+
 /**
  *
  * @author Maciel
@@ -14,6 +16,6 @@ public interface GenericDAO<T> {
     boolean create(T t);
     boolean update(T t);
     boolean delete(long id);
-    boolean read(long id);
-    boolean readAll();
+    T read(long id);
+    List<T> readAll();
 }

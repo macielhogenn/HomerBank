@@ -6,10 +6,8 @@
 package br.com.homerbank.dao.jdbc;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -21,8 +19,17 @@ import javax.sql.DataSource;
  */
 public class JDBCUtil {
     
-    protected Connection openConnection() {
+    public Connection openConnection() {
+        Connection conn = openRemoteConnection();
         
+        if (conn == null) {
+            conn = openLocalConnection();
+        }
+        
+        return conn;
+    }
+    
+    private Connection openRemoteConnection () {
         Connection conn = null;
         
         try {
@@ -37,32 +44,17 @@ public class JDBCUtil {
         return conn;
     }
     
-    protected void close(Connection conn) {
-        this.close(conn, null);
-    }
-    
-    protected void close(Connection conn, PreparedStatement pst) {
-        this.close(conn, pst, null);
-    }
-    
-    protected void close(Connection conn, PreparedStatement pst, ResultSet rs) {
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) { ; }
-            conn = null;
+    private Connection openLocalConnection () {
+        
+        Connection conn = null;
+        
+        try {
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe", "tor", "tor");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
         }
-        if (pst != null) {
-            try {
-                pst.close();
-            } catch (SQLException e) { ; }
-            pst = null;
-        }
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) { ; }
-            rs = null;
-        }
+        
+        return conn;
     }
 }

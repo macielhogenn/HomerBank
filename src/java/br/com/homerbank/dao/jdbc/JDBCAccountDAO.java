@@ -10,6 +10,7 @@ import br.com.homerbank.model.Account;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -19,42 +20,7 @@ public class JDBCAccountDAO extends JDBCGenericDAO implements AccountDAO {
 
     @Override
     public boolean create(Account t) {
-        Connection conn = getJDBCUtil().openConnection();
-        PreparedStatement pst = null;
-        
-        boolean success = false;
-        
-        try {
-            String sql = "insert into account (number_agency, "
-                    + "number_account, "
-                    + "password_account, "
-                    + "type_account, "
-                    + "date_of_creation, "
-                    + "balance, "
-                    + "client_account_id) "
-                    + " VALUES "
-                    + "(?, ?, ?, ?, ?, ?, ?)";
-            
-            pst = conn.prepareStatement(sql);
-            
-            pst.setString(1, t.getAgency().getNumber());
-            pst.setString(2, t.getNumber());
-            pst.setString(3, t.getPassword());
-            pst.setInt(4, t.getType());
-            pst.setDate(5, t.getDateOfCreation());
-            pst.setDouble(6, t.getBalance());
-            pst.setLong(7, t.getOwner().getId());
-            
-            success = pst.executeUpdate() > 0;
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        } finally {
-            getJDBCUtil().close(conn, pst);
-        }
-        
-        return success;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -68,14 +34,14 @@ public class JDBCAccountDAO extends JDBCGenericDAO implements AccountDAO {
     }
 
     @Override
-    public boolean read(long id) {
+    public Account read(long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean readAll() {
+    public List<Account> readAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     
 }
