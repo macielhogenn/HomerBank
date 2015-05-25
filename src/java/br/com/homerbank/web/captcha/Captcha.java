@@ -1,5 +1,6 @@
 package br.com.homerbank.web.captcha;
 
+import br.com.homerbank.locales.Locales;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -16,17 +17,13 @@ public class Captcha {
         
         switch (captchas.check(captcha)) {
             case 's':
-                body = "Session seems to be timed out or broken. ";
-                body += "Please try again or report error to administrator.";
+                body = Locales.get("app.captcha.sessionIsBroken");
                 break;
             case 'm':
-                body = "Every CAPTCHA can only be used once. ";
-                body += "The current CAPTCHA has already been used. ";
-                body += "Please use back button and reload";
+                body = Locales.get("app.captcha.currentCaptchaHasBeenUsed");
                 break;
             case 'w':
-                body = "You entered the wrong password. ";
-                body += "Please use back button and try again. ";
+                body = Locales.get("app.captcha.wrongCaptcha");
                 break;
             default:
                 checked = true;

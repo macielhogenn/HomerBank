@@ -86,6 +86,28 @@ BEGIN
   END IF;
 END;
 
+CREATE TABLE slips (
+    slip_id INT,
+    to_account INT NOT NULL,
+    from_account INT,
+    bar_code VARCHAR(100) NOT NULL,
+    date_of_payment DATE,
+    amount NUMERIC(18,2),
+    CONSTRAINT PK_slip_id PRIMARY KEY (slip_id),
+    CONSTRAINT FK_to_account FOREIGN KEY (to_account) REFERENCES accounts (account_id),
+    CONSTRAINT FK_from_account FOREIGN KEY (from_account) REFERENCES accounts (account_id)
+);
+
+CREATE SEQUENCE SQ_ID_SLIP MINVALUE 1 MAXVALUE 90000000 INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER auto_increment_slip_id
+BEFORE INSERT ON slips
+FOR EACH ROW
+BEGIN
+  IF :NEW.slip_id IS NULL THEN
+    :NEW.slip_id := SQ_ID_SLIP.nextval;
+  END IF;
+END;
 
 ---------------------------
 CREATE OR REPLACE TRIGGER balance_acaounts_transaction

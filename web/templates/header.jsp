@@ -12,7 +12,7 @@
                 <span><c:out value="${sessionScope.account.owner.name}" escapeXml="true" /></span><br/>
                 <span style="font-size: 80%; float: right"><c:out value="${sessionScope.account.agency.number}" escapeXml="true" /></span><br/>
                 <span style="font-size: 80%; float: right"><c:out value="${sessionScope.account.number}" escapeXml="true" /></span><br/>
-                <span style="float: right"><c:out value="R$${sessionScope.account.balance}" escapeXml="true" /></span><br/>
+                <span style="float: right"><fmt:formatNumber value="${sessionScope.account.balance}" type="currency"/></span><br/>
             </div>
         </div>
     </div>  
@@ -22,6 +22,7 @@
             <ul>
                 <li><a href="${pageContext.servletContext.contextPath}/transfer.jsp"><fmt:message key="app.transfer.title" /></a></li>
                 <li><a href="${pageContext.servletContext.contextPath}/statement.jsp"><fmt:message key="app.statement.title" /></a></li>
+                <li><a href="${pageContext.servletContext.contextPath}/slip.jsp"><fmt:message key="app.slip.title" /></a></li>
             </ul>
         </div>
         <div class="right">
