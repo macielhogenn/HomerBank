@@ -1,0 +1,13 @@
+* {
+    font-family: 'Ubuntu', sans-serif !important;
+}
+
+root { 
+    display: block;
+}
+
+.owner-info {
+    margin: 20px 20px 20px 20px;
+    float: right;
+}
+

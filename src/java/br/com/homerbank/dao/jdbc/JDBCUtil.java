@@ -35,7 +35,7 @@ public class JDBCUtil {
         try {
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource dataSource = (DataSource) envContext.lookup("jdbc/MySqlHomerBank");
+            DataSource dataSource = (DataSource) envContext.lookup("jdbc/OracleHomerBank");
             conn = dataSource.getConnection();
         } catch (NamingException | SQLException e) {
             System.err.println(e.getMessage());

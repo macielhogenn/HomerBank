@@ -13,7 +13,7 @@
  * 2006-09-21: Initial version.
  */
 
-package captchas;
+package br.com.homerbank.web.captcha;
 
 import java.io.*;
 import java.util.Random;

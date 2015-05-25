@@ -11,7 +11,7 @@ package br.com.homerbank.model.names;
  */
 public enum AgencyNames {
     
-    TABLE("agency"),
+    TABLE("agencies"),
     ID("agency_id"),
     NUMBER("number");
     

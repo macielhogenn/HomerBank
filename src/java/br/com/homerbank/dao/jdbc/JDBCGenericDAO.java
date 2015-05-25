@@ -17,9 +17,9 @@ import java.sql.SQLException;
  */
 public abstract class JDBCGenericDAO {
     
-    private Connection conn;
-    private PreparedStatement pst;
-    private ResultSet rs;
+    protected Connection conn;
+    protected PreparedStatement pst;
+    protected ResultSet rs;
     
     private JDBCUtil getJDBCUtil() {
         return new JDBCUtil();
@@ -196,5 +196,21 @@ public abstract class JDBCGenericDAO {
     
     protected String getString(String column) throws SQLException {
         return rs.getString(column);
+    }
+    
+    protected boolean verify(Object value) {
+        boolean ok = false;
+        
+        if (value != null) {
+            if (value instanceof String) {
+                ok = !((String)value).isEmpty();
+            } else if (value instanceof Long) {
+                ok = ((long)value) > 0;
+            } else if (value instanceof java.util.Date) {
+                ok = true;
+            }
+        }
+        
+        return ok;
     }
 }

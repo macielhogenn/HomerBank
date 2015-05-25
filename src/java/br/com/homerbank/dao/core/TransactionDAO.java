@@ -6,7 +6,10 @@
 package br.com.homerbank.dao.core;
 
 import br.com.homerbank.dao.GenericDAO;
+import br.com.homerbank.model.Account;
 import br.com.homerbank.model.Transaction;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -14,4 +17,5 @@ import br.com.homerbank.model.Transaction;
  */
 public interface TransactionDAO extends GenericDAO<Transaction>{
     
+    List<Transaction> readByPeriod(Account account, Date dateStart, Date dateEnd);
 }

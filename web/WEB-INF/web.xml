@@ -6,6 +6,11 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     <session-config>
-        <session-timeout>40</session-timeout>
+        <session-timeout>7</session-timeout>
     </session-config>
+    
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+        <param-value>br.com.homerbank.locales.messages</param-value>
+  </context-param>
 </web-app>

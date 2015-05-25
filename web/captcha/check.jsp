@@ -11,7 +11,7 @@
  --%>
 
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8"  %>
-<%@page import="captchas.CaptchasDotNet" %>
+<%@page import="br.com.homerbank.web.captcha.CaptchasDotNet" %>
 <!DOCTYPE html>
 <html>
   <head>

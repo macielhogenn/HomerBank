@@ -22,8 +22,8 @@
  % Don't forget the same settings in check.jsp
  --%>
 
-<%@ page language="java" contentType="text/html" pageEncoding="UTF-8" import="captchas.CaptchasDotNet" %>
-<%@ page import="captchas.CaptchasDotNet" %>
+<%@ page language="java" contentType="text/html" pageEncoding="UTF-8" import="br.com.homerbank.web.captcha.CaptchasDotNet" %>
+<%@ page import="br.com.homerbank.web.captcha.CaptchasDotNet" %>
 <!DOCTYPE html>
 <html>
   <head>

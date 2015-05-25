@@ -1,5 +1,5 @@
 <!-- Nome do Projeto Ant -->
-<project name="antproject_chat" default="ajuda" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant"> 
+<project name="antproject_homerbank" default="ajuda" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant"> 
 
     <!-- Define uma referencia para as variaveis de ambiente -->
     <property environment="e"/>

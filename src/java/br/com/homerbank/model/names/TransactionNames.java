@@ -11,12 +11,12 @@ package br.com.homerbank.model.names;
  */
 public enum TransactionNames {
     
-    TABLE("transaction"),
+    TABLE("transactions"),
     ID("transaction_id"),
     AC_CREDIT("account_id_credit"),
     AC_DEBIT("account_id_debit"),
     DATE("date_transaction"),
-    AMOUNT("amaount");
+    AMOUNT("amount");
     
     private String name;
     

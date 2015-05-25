@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/HomerBank">
-    <Resource name="jdbc/MySqlHomerBank"
+    <Resource name="jdbc/OracleHomerBank"
               auth="Container"
               type="javax.sql.DataSource"
-              driverClassName="org.mysql.jdbc.Driver"
-              url="jdbc:mysql://localhost:3306/homer_bank"
-              username="root"
-              password="root"
+              driverClassName="oracle.jdbc.driver.OracleDriver"
+              url="jdbc:oracle:thin:@127.0.0.1:1521:xe"
+              username="tor"
+              password="tor"
               maxActive="20" 
               maxIdle="10" 
               maxWait="-1" />
