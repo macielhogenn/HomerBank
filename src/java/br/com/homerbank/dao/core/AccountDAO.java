@@ -12,8 +12,10 @@ import br.com.homerbank.model.Account;
  *
  * @author Maciel
  */
-public interface AccountDAO extends GenericDAO<Account>{
-    
+public interface AccountDAO extends GenericDAO<Account> {
+
     Account authenticate(String agencyNumber, String accountNumber, String accountPassword);
+
     Account read(String agencyNumber, String accountNumber);
+
 }

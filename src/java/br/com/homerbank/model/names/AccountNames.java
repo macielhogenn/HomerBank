@@ -10,23 +10,23 @@ package br.com.homerbank.model.names;
  * @author Maciel
  */
 public enum AccountNames {
-    
+
     TABLE("accounts"),
     ID("account_id"),
     AGENCY("agency_id"),
-    NUMBER("number"),
+    NUMBER("number_account"),
     PASSWORD("password"),
-    TYPE("type"),
+    TYPE("type_account"),
     DATE_OF_CREATION("date_of_creation"),
-    BALANCE("BALANCE");
-    
-    
+    CLIENT("client_id"),
+    BALANCE("balance");
+
     private String name;
-    
+
     private AccountNames(String name) {
         this.name = name;
     }
-    
+
     @Override
     public String toString() {
         return name;
