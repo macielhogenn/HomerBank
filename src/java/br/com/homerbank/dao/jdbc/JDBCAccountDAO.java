@@ -120,7 +120,7 @@ public class JDBCAccountDAO extends JDBCGenericDAO implements AccountDAO {
                     account.setId(getLong("account_id"));
                     account.setAgency(agency);
                     account.setOwner(client);
-                    account.setPassword(null);
+                    account.setPassword(getString("password_account"));
                     account.setNumber(getString("number_account"));
                     account.setType(getShort("type_account"));
                     account.setDateOfCreation(getDate("date_of_creation"));

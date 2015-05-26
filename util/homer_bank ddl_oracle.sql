@@ -124,7 +124,7 @@ BEGIN
 END;
 
 ---------------------------
-CREATE OR REPLACE TRIGGER balance_acaounts_transaction
+CREATE OR REPLACE TRIGGER balance_accounts_transaction
 AFTER INSERT ON transactions
 FOR EACH ROW
 DECLARE

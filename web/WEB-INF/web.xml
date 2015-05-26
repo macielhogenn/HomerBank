@@ -47,4 +47,8 @@
         <error-code>500</error-code>
         <location>/500.jsp</location>
     </error-page>
+    
+    <listener>
+        <listener-class>br.com.homerbank.dao.listeners.ContextListener</listener-class>
+    </listener>
 </web-app>

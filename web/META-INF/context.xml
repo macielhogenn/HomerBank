@@ -10,4 +10,15 @@
               maxActive="20" 
               maxIdle="10" 
               maxWait="-1" />
+    
+    <Resource name="jdbc/MySQLHomerBank"
+              auth="Container"
+              type="javax.sql.DataSource"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://127.0.0.1:3306/homer_bank"
+              username="root"
+              password="root"
+              maxActive="20" 
+              maxIdle="10" 
+              maxWait="-1" />
 </Context>

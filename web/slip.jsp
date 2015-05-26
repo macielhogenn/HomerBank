@@ -14,7 +14,7 @@
                 <input id="bar-code" name="bar-code" type="text" class="field" placeholder="<fmt:message key="app.slip.barCode" />" /><br/>
                 <input id="date-of-payment" name="date-of-payment" type="text" class="field" placeholder="<fmt:message key="app.slip.dateOfPayment" />" /><br/>
                 <input id="amount" name="amount" type="text" class="field" placeholder="<fmt:message key="app.slip.amount" />" /><br/>
-                <input id="password" name="password" type="text" class="field" placeholder="<fmt:message key="app.view.password" />" /><br/> 
+                <input id="password" name="password" type="password" class="field" placeholder="<fmt:message key="app.view.password" />" /><br/> 
 
                 <%@include file="templates/captcha.jsp" %>
 
