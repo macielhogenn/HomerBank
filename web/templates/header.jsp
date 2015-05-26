@@ -27,7 +27,7 @@
         </div>
         <div class="right">
             <ul style="float: right">
-                <li><a href="${pageContext.servletContext.contextPath}/transfer.jsp"><fmt:message key="app.view.authenticate.logoutButton" /></a></li>
+                <li><a href="${pageContext.servletContext.contextPath}/Logout?a=a"><fmt:message key="app.view.authenticate.logoutButton" /></a></li>
             </ul>
         </div>
         

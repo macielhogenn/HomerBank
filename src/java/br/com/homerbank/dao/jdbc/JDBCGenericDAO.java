@@ -85,39 +85,40 @@ public abstract class JDBCGenericDAO {
     }
     
     protected void set(int index, Object value) throws SQLException {
-        
-        switch (value.getClass().getTypeName()) {
-            case "java.lang.Byte" :
-                setByte(index, (byte)value);
-                break;
-            case "java.lang.Short" :
-                setShort(index, (short)value);
-                break;
-            case "java.lang.Integer" :
-                setInt(index, (int)value);
-                break;
-            case "java.lang.Long" :
-                setLong(index, (long)value);
-                break;
-            case "java.lang.Float" :
-                setFloat(index, (float)value);
-                break;
-            case "java.lang.Double" :
-                setDouble(index, (double)value);
-                break;
-            case "java.lang.Boolean" :
-                setBoolean(index, (boolean)value);
-                break;
-            case "java.sql.Date" :
-                setDate(index, (Date)value);
-                break;
-            case "java.util.Date" :
-                setDate(index, (java.util.Date)value);
-                break;
-            case "java.lang.String" :
-                setString(index, (String)value);
-                break;
-            default :
+        if (conn != null && pst != null) {
+            switch (value.getClass().getTypeName()) {
+                case "java.lang.Byte" :
+                    setByte(index, (byte)value);
+                    break;
+                case "java.lang.Short" :
+                    setShort(index, (short)value);
+                    break;
+                case "java.lang.Integer" :
+                    setInt(index, (int)value);
+                    break;
+                case "java.lang.Long" :
+                    setLong(index, (long)value);
+                    break;
+                case "java.lang.Float" :
+                    setFloat(index, (float)value);
+                    break;
+                case "java.lang.Double" :
+                    setDouble(index, (double)value);
+                    break;
+                case "java.lang.Boolean" :
+                    setBoolean(index, (boolean)value);
+                    break;
+                case "java.sql.Date" :
+                    setDate(index, (Date)value);
+                    break;
+                case "java.util.Date" :
+                    setDate(index, (java.util.Date)value);
+                    break;
+                case "java.lang.String" :
+                    setString(index, (String)value);
+                    break;
+                default :
+            }
         }
     }
     

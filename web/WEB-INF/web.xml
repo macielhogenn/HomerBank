@@ -12,5 +12,39 @@
     <context-param>
         <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
         <param-value>br.com.homerbank.locales.messages</param-value>
-  </context-param>
+    </context-param>
+    
+    <filter id="validate_session_filter">
+        <filter-name>ValidateSession</filter-name>
+        <filter-class>br.com.homerbank.web.filters.FilterManager</filter-class>
+        <init-param>
+            <param-name>AUTHENTICATION_PAGE</param-name>
+            <param-value>/index.jsp</param-value>
+        </init-param>
+        <init-param>
+            <param-name>IGNORE_URLS</param-name>
+            <param-value> /resources;/templates/imports.jsp;/index.jsp;/authenticate.jsp;/404.jsp;/500.jsp;/AuthLogin </param-value>
+        </init-param>
+        <init-param>
+            <param-name>NOT_AUTHORIZED_PAGE</param-name>
+            <param-value>/404.jsp</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>ValidateSession</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>ValidateSession</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+    
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/500.jsp</location>
+    </error-page>
 </web-app>
